@@ -9,7 +9,12 @@ class my_game(object):
 	"""docstring for ClassName"""
 	def __init__(self):
 		self.board = []
-		self.board.append(['O'] * 10)
+		for x in xrange(1,11):
+			self.board.append(["0"] * 10)
+		#self.board.append(['O'] * 10)
+		#self.board = [["O","O","O"],["O","O","O"],["O","O","O"]]
+		#self.board = [["O","O","O"] * 3]
+		#self.board = [["O","O","O","O","O","O","O","O","O","O"] * 10]
 
 	def menu(self):
 		while True:
@@ -27,7 +32,7 @@ class my_game(object):
 		try:
 			option_menu = menu_option[menu_ask_option]
 			option_menu()
-		except ValueError:
+		except:
 			message = raw_input("Invalid option")
 
 	def menu_print(self):
@@ -50,11 +55,8 @@ class my_game(object):
 		vertical_or_horizontal = self.vertical_or_horizontal(random_vertical_or_horizontal)
 
 	def my_board(self):
-		for row in self.board[0]:
-		#for x in xrange(1,10):
-			#self.board.append(['O'] * 10)
-			for column in self.board:
-				print " ".join(column)
+		for row in self.board:
+			print " ".join(row)
 
 	def random_vertical_or_horizontal(self):
 		vertical_horizontal_random = random.randint(1, 2)
@@ -69,7 +71,6 @@ class my_game(object):
 			pass
 		elif random_vertical_or_horizontal == "horizontal":
 			pass
-		message = raw_input("OK: ")
 
 	def random_column(self):
 		return random.randint(1, len(self.board[0]))
@@ -78,7 +79,7 @@ class my_game(object):
 		return random.randint(1, len(self.board[0]))
 
 	def guess_column(self):
-		guess_column = int(raw_input("Try to guess the column where is hidden a part of a ship: "))
+		guess_column = int(raw_input("\nTry to guess the column where is hidden a part of a ship: "))
 		return guess_column
 
 	def guess_row(self):
@@ -89,13 +90,13 @@ class my_game(object):
 		if guess_column == random_column and guess_row == random_row:
 			print "You guessed a part of the ship"
 		else:
-			if guess_column <= 0 or guess_column > len(self.board[0]):
+			if guess_column <= 0 or guess_column > len(self.board[0]) or guess_row <= 0 or guess_row > len(self.board[0]):
 				print "This is outside of the board"
 			else:
-				print "You didn't guess any part of a ship"
-				#self.board[0][guess_row - 1] = "X"
-				self.board[0][0][0] = "X"
+				print "You didn't guess any part of a ship\n"
+				self.board[guess_row -1][guess_column- 1] = "X"
 				self.my_board()
+		message = raw_input("\nPRESS ENTER")
 
 	def exit_program(self):
 		os.system('reset')
