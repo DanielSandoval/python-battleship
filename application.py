@@ -9,12 +9,10 @@ class my_game(object):
 	"""docstring for ClassName"""
 	def __init__(self):
 		self.board = []
+		self.my_ships = []
+		self.menu_option = {1:self.one_player, 3:self.exit_program}
 		for x in xrange(1,11):
 			self.board.append(["0"] * 10)
-		#self.board.append(['O'] * 10)
-		#self.board = [["O","O","O"],["O","O","O"],["O","O","O"]]
-		#self.board = [["O","O","O"] * 3]
-		#self.board = [["O","O","O","O","O","O","O","O","O","O"] * 10]
 
 	def menu(self):
 		while True:
@@ -28,11 +26,11 @@ class my_game(object):
 		return ask_option
 
 	def menu_perform_action(self, menu_ask_option):
-		menu_option = {1:self.one_player, 3:self.exit_program}
-		try:
-			option_menu = menu_option[menu_ask_option]
+		if menu_ask_option in self.menu_option.keys():
+		#if menu_ask_option in self.menu_option():
+			option_menu = self.menu_option[menu_ask_option]
 			option_menu()
-		except:
+		else:
 			message = raw_input("Invalid option")
 
 	def menu_print(self):
@@ -43,24 +41,31 @@ class my_game(object):
 	def one_player(self):
 		os.system('reset')
 		self.my_board()
-		random_column = self.random_column()
-		random_row = self.random_row()
-		print random_column, "column"
-		print random_row,"row"
-		#while True:
-		guess_column = self.guess_column()
-		guess_row = self.guess_row()
-		self.verify_shot(random_column, random_row, guess_column, guess_row)
+		#random_column = self.random_column()
+		#random_row = self.random_row()
+		#print random_column, "column"
+		#print random_row,"row"
 		random_vertical_or_horizontal = self.random_vertical_or_horizontal()
 		vertical_or_horizontal = self.vertical_or_horizontal(random_vertical_or_horizontal)
+		game = "Continue"
+		while game == "Continue":
+			guess_column = self.guess_column()
+			guess_row = self.guess_row()
+			#self.verify_shot(random_column, random_row, guess_column, guess_row)
 
 	def my_board(self):
 		for row in self.board:
 			print " ".join(row)
 
+	def put_ships_random(self):
+		for ship in range(1,6):
+			random_vertical_or_horizontal = self.random_vertical_or_horizontal()
+			vertical_or_horizontal = self.vertical_or_horizontal()
+
 	def random_vertical_or_horizontal(self):
 		vertical_horizontal_random = random.randint(1, 2)
-		#print vertical_horizontal_random
+		print vertical_horizontal_random
+		message = raw_input("el numero")
 		if vertical_horizontal_random == 1:
 			return "vertical"
 		elif vertical_horizontal_random == 2:
@@ -68,9 +73,22 @@ class my_game(object):
 
 	def vertical_or_horizontal(self, random_vertical_or_horizontal):
 		if random_vertical_or_horizontal == "vertical":
-			pass
+			#pass
+			print "vertical"
+			message = raw_input("vertical")
+			self.ships_vertical_random()
 		elif random_vertical_or_horizontal == "horizontal":
-			pass
+			print "horizontal"
+			message = raw_input("horizontal")
+			self.ships_vertical_random()
+
+	def ships_vertical_random(self):
+		random_column = self.random_column()
+		random_row = self.random_row()
+		print random_column, "column"
+		print random_row,"row"
+		self.board[random_row -1][random_column - 1] = "S"
+		self.my_board()
 
 	def random_column(self):
 		return random.randint(1, len(self.board[0]))
@@ -79,11 +97,13 @@ class my_game(object):
 		return random.randint(1, len(self.board[0]))
 
 	def guess_column(self):
-		guess_column = int(raw_input("\nTry to guess the column where is hidden a part of a ship: "))
+		print "\nTry to guess the column where is hidden a part of a ship:"
+		guess_column = int(raw_input("  > "))
 		return guess_column
 
 	def guess_row(self):
-		guess_row = int(raw_input("Try to guess the row where is hidden a part of a ship: "))
+		print "Try to guess the row where is hidden a part of a ship:"
+		guess_row = int(raw_input("  > "))
 		return guess_row
 
 	def verify_shot(self, random_column, random_row, guess_column, guess_row):
@@ -94,7 +114,7 @@ class my_game(object):
 				print "This is outside of the board"
 			else:
 				print "You didn't guess any part of a ship\n"
-				self.board[guess_row -1][guess_column- 1] = "X"
+				self.board[guess_row -1][guess_column - 1] = "X"
 				self.my_board()
 		message = raw_input("\nPRESS ENTER")
 
