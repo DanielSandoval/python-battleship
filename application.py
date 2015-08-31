@@ -3,13 +3,14 @@
 import os
 import sys
 import random
-import pygame
+#import pygame
 
 class my_game(object):
 	"""docstring for ClassName"""
 	def __init__(self):
 		self.board = []
 		self.my_ships = []
+		self.ship_one = []
 		self.menu_option = {1:self.one_player, 3:self.exit_program}
 		for x in xrange(1,11):
 			self.board.append(["0"] * 10)
@@ -27,7 +28,6 @@ class my_game(object):
 
 	def menu_perform_action(self, menu_ask_option):
 		if menu_ask_option in self.menu_option.keys():
-		#if menu_ask_option in self.menu_option():
 			option_menu = self.menu_option[menu_ask_option]
 			option_menu()
 		else:
@@ -45,12 +45,13 @@ class my_game(object):
 		#random_row = self.random_row()
 		#print random_column, "column"
 		#print random_row,"row"
-		random_vertical_or_horizontal = self.random_vertical_or_horizontal()
-		vertical_or_horizontal = self.vertical_or_horizontal(random_vertical_or_horizontal)
-		game = "Continue"
+		self.put_ships_random()
+		#random_vertical_or_horizontal = self.random_vertical_or_horizontal()
+		#vertical_or_horizontal = self.vertical_or_horizontal(random_vertical_or_horizontal)
+		'''game = "Continue"
 		while game == "Continue":
 			guess_column = self.guess_column()
-			guess_row = self.guess_row()
+			guess_row = self.guess_row()'''
 			#self.verify_shot(random_column, random_row, guess_column, guess_row)
 
 	def my_board(self):
@@ -58,14 +59,15 @@ class my_game(object):
 			print " ".join(row)
 
 	def put_ships_random(self):
-		for ship in range(1,6):
-			random_vertical_or_horizontal = self.random_vertical_or_horizontal()
-			vertical_or_horizontal = self.vertical_or_horizontal()
+		#for ship in range(1,6):
+		random_vertical_or_horizontal = self.random_vertical_or_horizontal()
+		self.vertical_or_horizontal(random_vertical_or_horizontal)
 
 	def random_vertical_or_horizontal(self):
-		vertical_horizontal_random = random.randint(1, 2)
-		print vertical_horizontal_random
-		message = raw_input("el numero")
+		#vertical_horizontal_random = random.randint(1, 2)
+		vertical_horizontal_random = 2
+		#print vertical_horizontal_random
+		#message = raw_input("El numero al azar es el que esta arriba")
 		if vertical_horizontal_random == 1:
 			return "vertical"
 		elif vertical_horizontal_random == 2:
@@ -74,21 +76,52 @@ class my_game(object):
 	def vertical_or_horizontal(self, random_vertical_or_horizontal):
 		if random_vertical_or_horizontal == "vertical":
 			#pass
-			print "vertical"
-			message = raw_input("vertical")
+			#print "vertical"
+			#message = raw_input("vertical")
 			self.ships_vertical_random()
 		elif random_vertical_or_horizontal == "horizontal":
-			print "horizontal"
-			message = raw_input("horizontal")
-			self.ships_vertical_random()
+			#print "horizontal"
+			#message = raw_input("horizontal")
+			self.ships_horizontal_random()
 
-	def ships_vertical_random(self):
+	'''def ships_vertical_random(self):
+		message = "Estamos en ships vertical random"
 		random_column = self.random_column()
 		random_row = self.random_row()
-		print random_column, "column"
-		print random_row,"row"
+		#for ship in range(1,3):
+		random_vertical_or_horizontal = self.random_vertical_or_horizontal()
+		self.ship_one.append(random_vertical_or_horizontal)
+		self.my_ships.append(self.ship_one)
+		for part in range(1,5):
+			#if random_vertical_or_horizontal:
+			self.board[random_row -1][random_column - 1] = "S"
+		print self.my_ships
+		message = raw_input("hola")
 		self.board[random_row -1][random_column - 1] = "S"
 		self.my_board()
+		#return random_column, random_row'''
+
+	def ships_horizontal_random(self):
+		random_column = self.random_column()
+		random_row = self.random_row()
+		print "column",random_column
+		print "row", random_row
+		random_vertical_or_horizontal = self.random_vertical_or_horizontal()
+		self.my_ships.append(self.ship_one)
+		self.board[random_row -1][random_column - 1] = "S"
+		for part in range(1,4):
+			random_vertical_or_horizontal = self.random_vertical_or_horizontal()
+			if random_vertical_or_horizontal == "horizontal":
+				message = raw_input("adentro del for y el if")
+				random_column = random_column + 1
+				self.ship_one.append(random_column)
+			elif random_vertical_or_horizontal == "vertical":
+				random_column = random_column - 1
+				self.ship_one.append(random_column)
+			self.board[random_row - 1][random_column - 1] = "S"
+		print self.my_ships
+		self.my_board()
+		message = raw_input("final ship horizontal")
 
 	def random_column(self):
 		return random.randint(1, len(self.board[0]))
