@@ -12,8 +12,8 @@ class my_game(object):
 		self.my_ships = []
 		self.ship_one = []
 		self.menu_option = {1:self.one_player, 3:self.exit_program}
-		for x in xrange(1,11):
-			self.board.append(["0"] * 10)
+		for x in xrange(1,16):
+			self.board.append(["0"] * 15)
 
 	def menu(self):
 		while True:
@@ -61,7 +61,10 @@ class my_game(object):
 	def put_ships_random(self):
 		#for ship in range(1,6):
 		random_vertical_or_horizontal = self.random_vertical_or_horizontal()
-		self.vertical_or_horizontal(random_vertical_or_horizontal)
+		self.ship_four_one()
+		self.my_board()
+		message = raw_input("Final Put Ships")
+		#self.vertical_or_horizontal(random_vertical_or_horizontal)
 
 	def random_vertical_or_horizontal(self):
 		#vertical_horizontal_random = random.randint(1, 2)
@@ -102,26 +105,65 @@ class my_game(object):
 		#return random_column, random_row'''
 
 	def ships_horizontal_random(self):
-		random_column = self.random_column()
+		'''random_column = self.random_column()
 		random_row = self.random_row()
+		while self.board[random_row -1][random_column - 1] == "S":
+			random_column = self.random_column()
+			random_row = self.random_row()
 		print "column",random_column
 		print "row", random_row
-		random_vertical_or_horizontal = self.random_vertical_or_horizontal()
+		left_or_right = self.left_or_right()
 		self.my_ships.append(self.ship_one)
 		self.board[random_row -1][random_column - 1] = "S"
 		for part in range(1,4):
-			random_vertical_or_horizontal = self.random_vertical_or_horizontal()
-			if random_vertical_or_horizontal == "horizontal":
-				message = raw_input("adentro del for y el if")
+			left_or_right = self.left_or_right()
+			if left_or_right == "right" and (random_column != 15 and self.board[random_row -1][random_column - 1] == "S"):
 				random_column = random_column + 1
 				self.ship_one.append(random_column)
-			elif random_vertical_or_horizontal == "vertical":
+				self.board[random_row - 1][random_column - 1] = "S"
+			elif left_or_right == "left" and (random_column != 1 and self.board[random_row -1][random_column - 1] == "S"):
 				random_column = random_column - 1
 				self.ship_one.append(random_column)
-			self.board[random_row - 1][random_column - 1] = "S"
-		print self.my_ships
-		self.my_board()
+				self.board[random_row - 1][random_column - 1] = "S"
+		#print self.my_ships
+		self.my_board()'''
 		message = raw_input("final ship horizontal")
+
+	def left_or_right(self):
+		left_or_right = random.randint(1, 2)
+		if left_or_right:
+			return "right"
+		elif left_or_right:
+			return "left"
+
+	def ship_four_one(self):
+		random_column = self.random_column()
+		random_row = self.random_row()
+		print random_column
+		print random_row
+		try:
+			#if random_column <= 12:
+			if "S" in self.board[random_row -1][random_column + 5] or "S" in self.board[random_row -1][random_column + 4] or "S" in self.board[random_row -1][random_column + 3] or "S" in self.board[random_row -1][random_column + 2] or "S" in self.board[random_row -1][random_column + 1] or "S" in self.board[random_row -1][random_column]:
+				self.ship_four_one()
+			else:
+				find_ships = self.find_ships(random_column, random_row)
+				self.board[random_row -1][random_column - 1] = "S"
+				for x in xrange(1,4):
+					random_column += 1
+					self.board[random_row -1][random_column - 1] = "S"
+			#else:
+				'''message = raw_input("Ship out of the board")
+				self.ship_four_one()'''
+		except IndexError:
+			message = raw_input("We are in the except")
+			self.ship_four_one()
+		message = raw_input("Final ship for one")
+
+	def find_ships(self, random_column, random_row):
+		try:
+			pass
+		except:
+			raise e
 
 	def random_column(self):
 		return random.randint(1, len(self.board[0]))
