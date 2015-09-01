@@ -143,10 +143,11 @@ class my_game(object):
 		print random_row
 		try:
 			#if random_column <= 12:
-			if "S" in self.board[random_row -1][random_column + 5] or "S" in self.board[random_row -1][random_column + 4] or "S" in self.board[random_row -1][random_column + 3] or "S" in self.board[random_row -1][random_column + 2] or "S" in self.board[random_row -1][random_column + 1] or "S" in self.board[random_row -1][random_column]:
+			if "S" in self.board[random_row -1][random_column + 5] or "S" in self.board[random_row -1][random_column + 4] or "S" in self.board[random_row -1][random_column + 3] or "S" in self.board[random_row -1][random_column + 2] or "S" in self.board[random_row -1][random_column + 1] or "S" in self.board[random_row -1][random_column] or "S" in self.board[random_row -1][random_column -1]:
+				message = raw_input("Already there is a ship in this position")
 				self.ship_four_one()
 			else:
-				find_ships = self.find_ships(random_column, random_row)
+				#find_ships = self.find_ships(random_column, random_row)
 				self.board[random_row -1][random_column - 1] = "S"
 				for x in xrange(1,4):
 					random_column += 1
@@ -155,7 +156,7 @@ class my_game(object):
 				'''message = raw_input("Ship out of the board")
 				self.ship_four_one()'''
 		except IndexError:
-			message = raw_input("We are in the except")
+			message = raw_input("Out of the board")
 			self.ship_four_one()
 		message = raw_input("Final ship for one")
 
