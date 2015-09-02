@@ -10,10 +10,10 @@ class my_game(object):
 	def __init__(self):
 		self.board = []
 		self.my_ships = []
-		self.ship_one = []
+		#self.ship_one = []
 		self.menu_option = {1:self.one_player, 3:self.exit_program}
 		for x in xrange(1,16):
-			self.board.append(["0"] * 15)
+			self.board.append(["O"] * 15)
 
 	def menu(self):
 		while True:
@@ -44,63 +44,42 @@ class my_game(object):
 
 	def one_player(self):
 		os.system('reset')
-		self.my_board()
-		#random_column = self.random_column()
-		#random_row = self.random_row()
-		#print random_column, "column"
-		#print random_row,"row"
+		self.my_board_inside()
+		print ""
 		self.put_ships_random()
-		#random_vertical_or_horizontal = self.random_vertical_or_horizontal()
-		#vertical_or_horizontal = self.vertical_or_horizontal(random_vertical_or_horizontal)
 		'''game = "Continue"
 		while game == "Continue":
 			guess_column = self.guess_column()
 			guess_row = self.guess_row()'''
 			#self.verify_shot(random_column, random_row, guess_column, guess_row)
 
-	def my_board(self):
+	def my_board_inside(self):
+		for row in self.board:
+			print " ".join(row)
+
+	def my_board_outside(self):
 		for row in self.board:
 			print " ".join(row)
 
 	def put_ships_random(self):
-		#for ship in range(1,6):
 		self.put_ships_four_pieces()
+		message = raw_input("ships of four pieces")
 		self.put_ships_three_pieces()
-		#self.ship_four_horizontal()
-		#self.ship_four_vertical()
-		#self.ship_three_horizontal()
-		#self.ship_three_vertical()
-		self.my_board()
+		message = raw_input("ships of there pieces")
+		self.put_ships_two_pieces()
+		message = raw_input("ships of two pieces")
+		self.put_ships_one_pieces()
+		message = raw_input("ships of one pieces")
+		print ""
+		self.my_board_inside()
 		message = raw_input("Final Put Ships")
-		#self.vertical_or_horizontal(random_vertical_or_horizontal)
 
 	def random_vertical_or_horizontal(self):
 		vertical_horizontal_random = random.randint(1, 2)
-		#vertical_horizontal_random = 2
-		#print vertical_horizontal_random
-		#message = raw_input("El numero al azar es el que esta arriba")
 		if vertical_horizontal_random == 1:
 			return "vertical"
 		elif vertical_horizontal_random == 2:
 			return "horizontal"
-
-	def vertical_or_horizontal(self, random_vertical_or_horizontal):
-		if random_vertical_or_horizontal == "vertical":
-			#pass
-			#print "vertical"
-			#message = raw_input("vertical")
-			self.ships_vertical_random()
-		elif random_vertical_or_horizontal == "horizontal":
-			#print "horizontal"
-			#message = raw_input("horizontal")
-			self.ships_horizontal_random()
-
-	def left_or_right(self):
-		left_or_right = random.randint(1, 2)
-		if left_or_right:
-			return "right"
-		elif left_or_right:
-			return "left"
 
 	def put_ships_four_pieces(self):
 		for x in xrange(1,3):
@@ -118,15 +97,27 @@ class my_game(object):
 			elif random_vertical_or_horizontal == "vertical":
 				self.ship_three_vertical()
 
+	def put_ships_two_pieces(self):
+		for x in xrange(1,4):
+			random_vertical_or_horizontal = self.random_vertical_or_horizontal()
+			if random_vertical_or_horizontal == "horizontal":
+				self.ship_two_horizontal()
+			elif random_vertical_or_horizontal == "vertical":
+				self.ship_two_vertical()
+
+	def put_ships_one_pieces(self):
+		for x in xrange(1,6):
+			self.ship_one_both()
+
 	def ship_four_horizontal(self):
 		random_column = self.random_column()
 		random_row = self.random_row()
-		print random_column
-		print random_row
+		#print random_column
+		#print random_row
 		try:
 			if random_column <= 12:
 				if (random_column < 12 and ("S" in self.board[random_row - 1][random_column + 3] or "S" in self.board[random_row - 1][random_column + 2] or "S" in self.board[random_row - 1][random_column + 1] or "S" in self.board[random_row - 1][random_column] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 1][random_column - 2]))  or  (random_column == 12 and ("S" in self.board[random_row - 1][random_column] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 1][random_column - 2])):
-					message = raw_input("Already there is a ship in this position")
+					#message = raw_input("Already there is a ship in this position")
 					self.ship_four_horizontal()
 				else:
 					self.board[random_row -1][random_column - 1] = "S"
@@ -134,21 +125,21 @@ class my_game(object):
 						random_column += 1
 						self.board[random_row -1][random_column - 1] = "S"
 			else:
-				message = raw_input("Out position")
+				#message = raw_input("Out position")
 				self.ship_four_horizontal()
 		except IndexError:
-			message = raw_input("Out of the board")
+			#message = raw_input("Out of the board")
 			self.ship_four_horizontal()
-		message = raw_input("Final ship for one")
+		#message = raw_input("Final ship for one")
 
 	def ship_four_vertical(self):
 		random_column = self.random_column()
 		random_row = random.randint(1,12)
-		print random_column
-		print random_row
+		#print random_column
+		#print random_row
 		try:
 			if (random_row < 12 and ("S" in self.board[random_row + 3][random_column - 1] or "S" in self.board[random_row + 2][random_column - 1] or "S" in self.board[random_row + 1][random_column - 1] or "S" in self.board[random_row][random_column - 1] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 2][random_column - 1]))  or  (random_row == 12 and ("S" in self.board[random_row][random_column - 1] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 2][random_column - 1])):
-				message = raw_input("Already there is a ship in this position")
+				#message = raw_input("Already there is a ship in this position")
 				self.ship_four_vertical()
 			else:
 				self.board[random_row - 1][random_column - 1] = "S"
@@ -156,18 +147,18 @@ class my_game(object):
 					random_row += 1
 					self.board[random_row - 1][random_column - 1] = "S"
 		except IndexError:
-			message = raw_input("Out of the board")
+			#message = raw_input("Out of the board")
 			self.ship_four_horizontal()
-		message = raw_input("Final ship for one")
+		#message = raw_input("Final ship for one")
 
 	def ship_three_horizontal(self):
 		random_column = random.randint(1,13)
 		random_row = self.random_row()
-		print random_column
-		print random_row
+		#print random_column
+		#print random_row
 		try:
 			if (random_column < 13 and ("S" in self.board[random_row - 1][random_column + 2] or "S" in self.board[random_row - 1][random_column + 1] or "S" in self.board[random_row - 1][random_column] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 1][random_column - 2]))  or  (random_column == 13 and ("S" in self.board[random_row - 1][random_column] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 1][random_column - 2])):
-				message = raw_input("Already there is a ship in this position")
+				#message = raw_input("Already there is a ship in this position")
 				self.ship_three_horizontal()
 			else:
 				self.board[random_row - 1][random_column - 1] = "S"
@@ -175,18 +166,18 @@ class my_game(object):
 					random_column += 1
 					self.board[random_row - 1][random_column - 1] = "S"
 		except IndexError:
-			message = raw_input("Out of the board")
+			#message = raw_input("Out of the board")
 			self.ship_three_horizontal()
-		message = raw_input("Final ship for one")
+		#message = raw_input("Final ship for one")
 
 	def ship_three_vertical(self):
 		random_column = self.random_column()
 		random_row = random.randint(1,13)
-		print random_column
-		print random_row
+		#print random_column
+		#print random_row
 		try:
 			if (random_row < 13 and ("S" in self.board[random_row + 2][random_column - 1] or "S" in self.board[random_row + 1][random_column - 1] or "S" in self.board[random_row][random_column - 1] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 2][random_column - 1]))  or  (random_row == 13 and ("S" in self.board[random_row][random_column - 1] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 2][random_column - 1])):
-				message = raw_input("Already there is a ship in this position")
+				#message = raw_input("Already there is a ship in this position")
 				self.ship_three_vertical()
 			else:
 				self.board[random_row - 1][random_column - 1] = "S"
@@ -194,18 +185,18 @@ class my_game(object):
 					random_row += 1
 					self.board[random_row - 1][random_column - 1] = "S"
 		except IndexError:
-			message = raw_input("Out of the board")
+			#message = raw_input("Out of the board")
 			self.ship_three_vertical()
-		message = raw_input("Final ship for one")
+		#message = raw_input("Final ship for one")
 
 	def ship_two_horizontal(self):
 		random_column = random.randint(1,14)
 		random_row = self.random_row()
-		print random_column
-		print random_row
+		#print random_column
+		#print random_row
 		try:
 			if (random_column < 14 and ("S" in self.board[random_row - 1][random_column + 1] or "S" in self.board[random_row - 1][random_column] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 1][random_column - 2]))  or  (random_column == 14 and ("S" in self.board[random_row - 1][random_column] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 1][random_column - 2])):
-				message = raw_input("Already there is a ship in this position")
+				#message = raw_input("Already there is a ship in this position")
 				self.ship_two_horizontal()
 			else:
 				self.board[random_row - 1][random_column - 1] = "S"
@@ -213,18 +204,18 @@ class my_game(object):
 					random_column += 1
 					self.board[random_row - 1][random_column - 1] = "S"
 		except IndexError:
-			message = raw_input("Out of the board")
+			#message = raw_input("Out of the board")
 			self.ship_two_horizontal()
-		message = raw_input("Final ship for one")
+		#message = raw_input("Final ship for one")
 
 	def ship_two_vertical(self):
 		random_column = self.random_column()
 		random_row = random.randint(1,14)
-		print random_column
-		print random_row
+		#print random_column
+		#print random_row
 		try:
 			if (random_row < 14 and ("S" in self.board[random_row + 1][random_column - 1] or "S" in self.board[random_row][random_column - 1] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 2][random_column - 1]))  or  (random_row == 14 and ("S" in self.board[random_row][random_column - 1] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 2][random_column - 1])):
-				message = raw_input("Already there is a ship in this position")
+				#message = raw_input("Already there is a ship in this position")
 				self.ship_two_vertical()
 			else:
 				self.board[random_row - 1][random_column - 1] = "S"
@@ -232,47 +223,28 @@ class my_game(object):
 					random_row += 1
 					self.board[random_row - 1][random_column - 1] = "S"
 		except IndexError:
-			message = raw_input("Out of the board")
+			#message = raw_input("Out of the board")
 			self.ship_two_vertical()
-		message = raw_input("Final ship for one")
+		#message = raw_input("Final ship for one")
 
-	def ship_one_horizontal(self):
+	def ship_one_both(self):
 		random_column = random.randint(1,15)
 		random_row = self.random_row()
-		print random_column
-		print random_row
+		#print random_column
+		#print random_row
 		try:
-			if (random_column < 15 and ("S" in self.board[random_row - 1][random_column + 1] or "S" in self.board[random_row - 1][random_column] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 1][random_column - 2]))  or  (random_column == 15 and ("S" in self.board[random_row - 1][random_column] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 1][random_column - 2])):
-				message = raw_input("Already there is a ship in this position")
-				self.ship_one_horizontal()
+			if (random_column < 15 and ("S" in self.board[random_row - 1][random_column + 1] or "S" in self.board[random_row - 1][random_column] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 1][random_column - 2]))\
+				or (random_column == 15 and ("S" in self.board[random_row - 1][random_column] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 1][random_column - 2]))\
+				or ("S" in self.board[random_row + 1][random_column - 1] or "S" in self.board[random_row][random_column - 1] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 2][random_column - 1])\
+				or ("S" in self.board[random_row][random_column - 1] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 2][random_column - 1]):
+				#message = raw_input("Already there is a ship in this position")
+				self.ship_one_both()
 			else:
 				self.board[random_row - 1][random_column - 1] = "S"
-				for x in xrange(1,1):
-					random_column += 1
-					self.board[random_row - 1][random_column - 1] = "S"
 		except IndexError:
-			message = raw_input("Out of the board")
-			self.ship_one_horizontal()
-		message = raw_input("Final ship for one")
-
-	def ship_one_vertical(self):
-		random_column = self.random_column()
-		random_row = random.randint(1,15)
-		print random_column
-		print random_row
-		try:
-			if (random_row < 15 and ("S" in self.board[random_row + 1][random_column - 1] or "S" in self.board[random_row][random_column - 1] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 2][random_column - 1]))  or  (random_row == 15 and ("S" in self.board[random_row][random_column - 1] or "S" in self.board[random_row - 1][random_column - 1] or "S" in self.board[random_row - 2][random_column - 1])):
-				message = raw_input("Already there is a ship in this position")
-				self.ship_one_vertical()
-			else:
-				self.board[random_row - 1][random_column - 1] = "S"
-				for x in xrange(1,1):
-					random_row += 1
-					self.board[random_row - 1][random_column - 1] = "S"
-		except IndexError:
-			message = raw_input("Out of the board")
-			self.ship_one_vertical()
-		message = raw_input("Final ship for one")
+			#message = raw_input("Out of the board")
+			self.ship_one_both()
+		#message = raw_input("Final ship for one")
 
 	def random_column(self):
 		return random.randint(1, len(self.board[0]))
@@ -299,7 +271,7 @@ class my_game(object):
 			else:
 				print "You didn't guess any part of a ship\n"
 				self.board[guess_row -1][guess_column - 1] = "X"
-				self.my_board()
+				self.my_board_inside()
 		message = raw_input("\nPRESS ENTER")
 
 	def exit_program(self):
