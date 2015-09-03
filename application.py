@@ -10,19 +10,20 @@ class my_game(object):
 	def __init__(self):
 		self.board_inside = []
 		self.board_outside = []
-		self.my_ships = []
 		self.ship_4_horizontal = []
 		self.ship_4_vertical = []
 		self.menu_option = {1:self.one_player, 3:self.exit_program}
 		for x in xrange(1,16):
 			self.board_inside.append(["O"] * 15)
+		for x in xrange(1,16):
+			self.board_outside.append(["O"] * 15)
 
 	def my_board_inside(self):
 		for row in self.board_inside:
 			print " ".join(row)
 
 	def my_board_outside(self):
-		for row in self.board:
+		for row in self.board_outside:
 			print " ".join(row)
 
 	def menu(self):
@@ -59,7 +60,7 @@ class my_game(object):
 		self.put_ships_random()
 		#if :
 			#pass
-		self.game_single_player()
+		self.player_one()
 		'''game = "Continue"
 		while game == "Continue":
 			guess_column = self.guess_column()
@@ -262,32 +263,62 @@ class my_game(object):
 	def random_row(self):
 		return random.randint(1, len(self.board_inside[0]))
 
-	def game_single_player(self):
-		guess_column = self.guess_column()
-		guess_row = self.guess_row()
-		self.verify_shot(guess_column, guess_row)
+	#def game_single_player(self):
+
+	def player_one(self):
+		game_over = False
+		while game_over == False:
+			guess_column = self.guess_column()
+			guess_row = self.guess_row()
+			self.verify_shot(guess_column, guess_row)
+			#self.compare_boards()
 
 	def guess_column(self):
 		print "\nTry to guess the column where is hidden a part of a ship:"
-		guess_column = int(raw_input("  > "))
+		guess_column = raw_input("  > ")
+		guess_column = self.guess_column_int(guess_column)
 		return guess_column
 
 	def guess_row(self):
 		print "Try to guess the row where is hidden a part of a ship:"
-		guess_row = int(raw_input("  > "))
+		guess_row = raw_input("  > ")
+		guess_row = self.guess_row_int(guess_row)
+		return guess_row
+
+	def guess_column_int(self, guess_column):
+		guess_column = int(guess_column)
+		return guess_column
+
+	def guess_row_int(self, guess_row):
+		guess_row = int(guess_row)
 		return guess_row
 
 	def verify_shot(self, guess_column, guess_row):
-		if guess_column == random_column and guess_row == random_row:
-			print "You guessed a part of the ship"
+		if guess_column <= 0 or guess_column > len(self.board_inside[0]) or guess_row <= 0 or guess_row > len(self.board_inside[0]):
+			print "\nThis is outside of the board\n"
 		else:
-			if guess_column <= 0 or guess_column > len(self.board_inside[0]) or guess_row <= 0 or guess_row > len(self.board_inside[0]):
-				print "This is outside of the board"
+			if self.board_inside[guess_row - 1][guess_column - 1] == "S":
+				print "\nYou guessed a part of the ship\n"
+				self.board_outside[guess_row - 1][guess_column - 1] = "S"
+				self.my_board_outside()
 			else:
-				print "You didn't guess any part of a ship\n"
-				self.board_inside[guess_row -1][guess_column - 1] = "X"
-				self.my_board_inside()
-		message = raw_input("\nPRESS ENTER")
+				print "\nYou didn't guess any part of a ship\n"
+				self.board_outside[guess_row -1][guess_column - 1] = "X"
+				self.my_board_outside()
+		message = raw_input("PRESS ENTER")
+
+	def compare_boards(self):
+		for x in xrange(1,10):
+			pass
+		'''times_in_board_inside = 0
+		for row in self.board_inside:
+			times_in_board_inside += self.board_inside.count("S")
+		times_in_board_outside = 0
+		for element in self.board_outside:
+			times_in_board_outside = self.board_outside.count("S")
+		print times_in_board_inside
+		print times_in_board_outside
+		message = raw_input("Compare boards")'''
 
 	def exit_program(self):
 		os.system('reset')
