@@ -65,8 +65,11 @@ class my_game(object):
 		os.system('reset')
 		self.my_board_inside_compu()
 		print ""
-		self.put_ships_random()
+		#self.put_ships_random()
+		self.put_ships_one_pieces("no random")
 		self.player_one()
+		self.my_board_inside_compu()
+		self.my_board_outside_compu()
 		'''game = "Continue"
 		while game == "Continue":
 			guess_column = self.guess_column()
@@ -117,9 +120,9 @@ class my_game(object):
 			elif random_vertical_or_horizontal == "vertical":
 				self.ship_two_vertical()
 
-	def put_ships_one_pieces(self):
+	def put_ships_one_pieces(self, condition):
 		for x in xrange(1,6):
-			self.ship_one_both()
+			self.ship_one_both(condition)
 
 	def ship_four_horizontal(self):
 		random_column = random.randint(1,12)
@@ -253,7 +256,7 @@ class my_game(object):
 			self.ship_two_vertical()
 		#message = raw_input("Final ship for one")
 
-	def ship_one_both(self):
+	'''def ship_one_both(self):
 		random_column = random.randint(1,15)
 		random_row = self.random_row()
 		#print random_column
@@ -270,16 +273,79 @@ class my_game(object):
 		except IndexError:
 			#message = raw_input("Out of the board")
 			self.ship_one_both()
-		#message = raw_input("Final ship for one")
+		#message = raw_input("Final ship for one")'''
+
+	def ship_one_both(self, condition):
+		#random_column = random.randint(1,15)
+		#random_row = self.random_row()
+		random_column = self.column(condition, 15)
+		random_row = self.row(condition, 15)
+		#print random_column
+		#print random_row
+		try:
+			if (random_column < 15 and ("S" in self.board_inside_compu[random_row - 1][random_column + 1] or "S" in self.board_inside_compu[random_row - 1][random_column] or "S" in self.board_inside_compu[random_row - 1][random_column - 1] or "S" in self.board_inside_compu[random_row - 1][random_column - 2]))\
+				or (random_column == 15 and ("S" in self.board_inside_compu[random_row - 1][random_column] or "S" in self.board_inside_compu[random_row - 1][random_column - 1] or "S" in self.board_inside_compu[random_row - 1][random_column - 2]))\
+				or ("S" in self.board_inside_compu[random_row + 1][random_column - 1] or "S" in self.board_inside_compu[random_row][random_column - 1] or "S" in self.board_inside_compu[random_row - 1][random_column - 1] or "S" in self.board_inside_compu[random_row - 2][random_column - 1])\
+				or ("S" in self.board_inside_compu[random_row][random_column - 1] or "S" in self.board_inside_compu[random_row - 1][random_column - 1] or "S" in self.board_inside_compu[random_row - 2][random_column - 1]):
+				#message = raw_input("Already there is a ship in this position")
+				self.ship_one_both(condition)
+			else:
+				self.board_inside_compu[random_row - 1][random_column - 1] = "S"
+				self.decide_if_print_board(condition)
+		except IndexError:
+			#message = raw_input("Out of the board")
+			self.ship_one_both(condition)
+		message = raw_input("Final ship for one")
+
+	def decide_if_print_board(self, condition):
+		if condition == "no random":
+			self.my_board_inside_compu()
+
+	def column(self, condition, end_range):
+		if condition == "random":
+			column = random.randint(1, end_range)
+		elif condition == "no random":
+			column = self.ask_column_position()
+		return column
+
+	def ask_column_position(self):
+		print "\nEnter the column where you want to start the ship"
+		column_position = raw_input(" > ")
+		column_position = self.ask_column_position_int(column_position)
+		return column_position
+
+	def ask_column_position_int(self, column_position):
+		try:
+			column_position = int(column_position)
+		except ValueError:
+			pass
+		return column_position
+
+	def row(self, condition, end_range):
+		if condition == "random":
+			row = random.randint(1, end_range)
+		elif condition == "no random":
+			row = self.ask_row_position()
+		return row
+
+	def ask_row_position(self):
+		print "Enter the row where you want to start the ship"
+		row_position = raw_input(" > ")
+		row_position = self.ask_row_position_int(row_position)
+		return row_position
+
+	def ask_row_position_int(self, row_position):
+		try:
+			row_position = int(row_position)
+		except ValueError:
+			pass
+		return row_position
 
 	def random_column(self):
 		return random.randint(1, len(self.board_inside_compu[0]))
 
 	def random_row(self):
 		return random.randint(1, len(self.board_inside_compu[0]))
-
-	def game_single_player(self):
-		pass
 
 	def player_one(self):
 		game_over = False
@@ -326,6 +392,7 @@ class my_game(object):
 		message = raw_input("PRESS ENTER")
 
 	def compare_boards(self):
+		"""Compare the boards to know if somebody win the game"""
 		times_in_board_inside_compu = 0
 		for row in self.board_inside_compu:
 			times_in_board_inside_compu += row.count("S")
