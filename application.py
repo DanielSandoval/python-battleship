@@ -82,7 +82,7 @@ class my_game(object):
 	def single_player(self):
 		os.system('reset')
 		self.my_board_inside_compu()
-		print ""
+		#print ""
 		#self.put_ships_random()
 		self.put_ships_one_pieces("random", self.board_inside_compu)
 		self.put_ships_one_pieces("no random", self.board_inside_player1)
@@ -101,7 +101,7 @@ class my_game(object):
 	def multi_player(self):
 		os.system('reset')
 		self.my_board_inside_player2()
-		print ""
+		#print ""
 		#self.put_ships_one_pieces("no random", self.board_inside_player1)
 		self.put_ships_one_pieces("no random", self.board_inside_player2)
 		game = True
