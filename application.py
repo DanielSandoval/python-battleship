@@ -120,9 +120,9 @@ class my_game(object):
 			game = self.win_or_no(self.board_inside_compu, self.board_outside_compu)
 			if game == True:
 				os.system('reset')
-				self.my_board_inside_player1()
+				'''self.my_board_inside_player1()
 				print ""
-				self.my_board_outside_player1()
+				self.my_board_outside_player1()'''
 				self.turn_computer_player(self.board_inside_player1, self.board_outside_player1, self.my_board_inside_player1, self.my_board_outside_player1, "COMPU")
 				game = self.win_or_no(self.board_inside_player1, self.board_outside_player1)
 		self.create_boards_compu()
@@ -498,27 +498,22 @@ class my_game(object):
 		return random.randint(1, len(self.board_inside_compu[0]))
 
 	def turn_player_one(self, inside_list, outside_list, inside_function, outside_function, player):
-		#game_over = False
-		#while game_over == False:
 		print "\n%s" % player
 		guess_column = self.guess_column()
 		guess_row = self.guess_row()
-		self.verify_shot(guess_column, guess_row, inside_list, outside_list, inside_function, outside_function, player)
+		self.verify_shot(False, guess_column, guess_row, inside_list, outside_list, inside_function, outside_function, player)
 		#game_over = self.win_or_no()
 
 	def turn_player_two(self, inside_list, outside_list, inside_function, outside_function, player):
 		print "\n%s" % player
 		guess_column = self.guess_column()
 		guess_row = self.guess_row()
-		self.verify_shot(guess_column, guess_row, inside_list, outside_list, inside_function, outside_function, player)
+		self.verify_shot(False, guess_column, guess_row, inside_list, outside_list, inside_function, outside_function, player)
 
 	def turn_computer_player(self, inside_list, outside_list, inside_function, outside_function, player):
 		random_column = self.random_column()
 		random_row = self.random_row()
-		print "%s shot in this position:" % player
-		print "Column: %s" % random_column
-		print "Row %s" % random_row
-		self.verify_shot(random_column, random_row, inside_list, outside_list, inside_function, outside_function, player)
+		self.verify_shot(True,random_column, random_row, inside_list, outside_list, inside_function, outside_function, player)
 
 	def guess_column(self):
 		print "\nTry to guess the column where is hidden a part of a ship:"
@@ -557,7 +552,7 @@ class my_game(object):
 		#self.win_or_no()
 		message = raw_input("PRESS ENTER")'''
 
-	def verify_shot(self, column, row, inside_list, outside_list, inside_function, outside_function, player):
+	def verify_shot(self,true_or_false, column, row, inside_list, outside_list, inside_function, outside_function, player):
 		if column <= 0 or column > len(inside_list[0]) or row <= 0 or row > len(inside_list[0]):
 			print "\nThis is outside of the board\n"
 		else:
@@ -567,6 +562,7 @@ class my_game(object):
 				print ""
 				outside_function()
 				print "\n%s" % player
+				self.decide_print_coordenates(true_or_false, player, column, row)
 				message = raw_input("\nYou guessed a part of the ship")
 			else:
 				outside_list[row -1][column - 1] = "X"
@@ -574,10 +570,17 @@ class my_game(object):
 				print ""
 				outside_function()
 				print "\n%s" % player
+				self.decide_print_coordenates(true_or_false, player, column, row)
 				message =  raw_input("\nYou didn't guess any part of a ship")
 			#os.system('reset')
 		#self.win_or_no()
 		#message = raw_input("PRESS ENTER")
+
+	def decide_print_coordenates(self,true_or_false, player, column, row):
+		if true_or_false == True:
+			print "\n%s shot in this position:" % player
+			print "Column: %s" % column
+			print "Row %s" % row
 
 	def compare_boards(self, inside_list, outside_list):
 		"""Compare the boards to know if somebody win the game"""
