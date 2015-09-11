@@ -47,7 +47,8 @@ class my_game(object):
 
 	def my_board_outside_player1(self):
 		#os.system('reset')
-		print "BOARD OUTSIDE PLAYER 1\n"
+		print
+		#print "BOARD OUTSIDE PLAYER 1\n"
 		for row in self.board_outside_player1:
 			print " ".join(row)
 
@@ -82,6 +83,11 @@ class my_game(object):
 			menu_ask_option = self.menu_ask_option()
 			menu_perform_action = self.menu_perform_action(menu_ask_option)
 
+	def menu_print(self):
+		print "1.ONE PLAYER"
+		print "2.TWO PLAYERS"
+		print "3.EXIT"
+
 	def menu_ask_option(self):
 		ask_option = raw_input("Select the option you want: ")
 		try:
@@ -96,11 +102,6 @@ class my_game(object):
 			option_menu()
 		else:
 			message = raw_input("Invalid option")
-
-	def menu_print(self):
-		print "1.ONE PLAYER"
-		print "2.TWO PLAYERS"
-		print "3.EXIT"
 
 	def single_player(self):
 		self.create_boards_compu()
@@ -163,7 +164,6 @@ class my_game(object):
 		self.put_ships_two_pieces(condition, inside_list, inside_function, outside_function, player)
 		self.put_ships_one_pieces(condition, inside_list, inside_function, outside_function, player)
 		#print ""
-		#self.my_board_inside_compu()
 		#message = raw_input("Final Put Ships")
 
 	def vertical_or_horizontal(self, condition):
@@ -175,7 +175,11 @@ class my_game(object):
 		return vertical_or_horizontal
 
 	def ask_vertical_or_horizontal(self):
-		vertical_or_horizontal = raw_input("\nVertical or horizontal v/h: ")
+		vertical_or_horizontal = ""
+		print ""
+		while vertical_or_horizontal != "v" and vertical_or_horizontal != "h" and vertical_or_horizontal != "V" and vertical_or_horizontal != "H":
+		#while vertical_or_horizontal != "v" and vertical_or_horizontal != "h":
+			vertical_or_horizontal = raw_input("Vertical or horizontal v/h: ")
 		return vertical_or_horizontal
 
 	def random_vertical_or_horizontal(self):
@@ -458,10 +462,12 @@ class my_game(object):
 		return column
 
 	def ask_column_position(self):
-		print "\nEnter the column where you want to start the ship"
-		column_position = raw_input(" > ")
-		column_position = self.ask_column_position_int(column_position)
-		return column_position
+		column_position = 0
+		while column_position < 1 or column_position > 15:
+			print "\nEnter the column where you want to start the ship"
+			column_position = raw_input(" > ")
+			column_position = self.ask_column_position_int(column_position)
+			return column_position
 
 	def ask_column_position_int(self, column_position):
 		try:
