@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 # Aqui escribe tu codigo
 
 import os
@@ -47,7 +48,13 @@ class my_game(object):
 
 	def my_board_outside_player1(self):
 		#os.system('reset')
-		print
+		print """
+		 _____               _    _____ _                    ___   
+		| __  |___ ___ ___ _| |  |  _  | |___ _ _ ___ ___   |_  |  
+		| __ -| . | .'|  _| . |  |   __| | .'| | | -_|  _|   _| |_ 
+		|_____|___|__,|_| |___|  |__|  |_|__,|_  |___|_|    |_____|
+		                                     |___|                 
+		"""
 		#print "BOARD OUTSIDE PLAYER 1\n"
 		for row in self.board_outside_player1:
 			print " ".join(row)
@@ -60,7 +67,14 @@ class my_game(object):
 
 	def my_board_outside_player2(self):
 		#os.system('reset')
-		print "BOARD OUTSIDE PLAYER 2\n"
+		print """
+		 _____               _    _____ _                    ___ 
+		| __  |___ ___ ___ _| |  |  _  | |___ _ _ ___ ___   |_  |
+		| __ -| . | .'|  _| . |  |   __| | .'| | | -_|  _|  |  _|
+		|_____|___|__,|_| |___|  |__|  |_|__,|_  |___|_|    |___|
+		                                     |___|               
+		"""
+		#print "BOARD OUTSIDE PLAYER 2\n"
 		for row in self.board_outside_player2:
 			print " ".join(row)
 
@@ -72,18 +86,46 @@ class my_game(object):
 
 	def my_board_outside_compu(self):
 		#os.system('reset')
-		print "BOARD OUTSIDE COMPU\n"
+		print """
+		 _____               _    _____                   
+		| __  |___ ___ ___ _| |  |     |___ _____ ___ _ _ 
+		| __ -| . | .'|  _| . |  |   --| . |     | . | | |
+		|_____|___|__,|_| |___|  |_____|___|_|_|_|  _|___|
+		                                         |_|      
+		"""
+		#print "BOARD OUTSIDE COMPU\n"
 		for row in self.board_outside_compu:
 			print " ".join(row)
 
 	def menu(self):
 		while True:
 			os.system('reset')
+			self.instructions()
 			self.menu_print()
 			menu_ask_option = self.menu_ask_option()
 			menu_perform_action = self.menu_perform_action(menu_ask_option)
 
+	def instructions(self):
+		print """
+		Select if you want to choose:\n
+		Single Player
+		Multi Player
+		Exit\n
+		1) In Single Player the ships of the computer are placed automatically then you have to
+		   place your ships on your board.
+		   Then you have to try to guess all the parts of the ship to sink it and the computer has
+		   to try to sink your boards too"
+		2) In Multi Player both players have to put their ships on their board and then they have
+		   to try to sink the ships of the opponent
+		"""
+
 	def menu_print(self):
+		print """
+		 _____ _____ _____ _____ 
+		|     |   __|   | |  |  |
+		| | | |   __| | | |  |  |
+		|_|_|_|_____|_|___|_____|
+		"""
 		print "1.ONE PLAYER"
 		print "2.TWO PLAYERS"
 		print "3.EXIT"
@@ -114,17 +156,19 @@ class my_game(object):
 		game = True
 		while game == True:
 			os.system('reset')
-			self.my_board_inside_compu()
+			self.my_board_outside_player1()
 			print ""
+			#self.my_board_inside_compu()
+			#print ""
 			self.my_board_outside_compu()
-			self.turn_player_one(self.board_inside_compu, self.board_outside_compu, self.my_board_inside_compu, self.my_board_outside_compu, "PLAYER 1")
+			self.turn_player_one(self.board_inside_compu, self.board_outside_compu, self.my_board_outside_player1, self.my_board_inside_compu, self.my_board_outside_compu, "PLAYER 1")
 			game = self.win_or_no(self.board_inside_compu, self.board_outside_compu)
 			if game == True:
 				os.system('reset')
 				'''self.my_board_inside_player1()
 				print ""
 				self.my_board_outside_player1()'''
-				self.turn_computer_player(self.board_inside_player1, self.board_outside_player1, self.my_board_inside_player1, self.my_board_outside_player1, "COMPU")
+				self.turn_computer_player(self.board_inside_player1, self.board_outside_player1, self.my_board_outside_compu, self.my_board_inside_player1, self.my_board_outside_player1, "COMPU")
 				game = self.win_or_no(self.board_inside_player1, self.board_outside_player1)
 		self.create_boards_compu()
 		self.create_boards_player1()
@@ -142,17 +186,21 @@ class my_game(object):
 		game = True
 		while game == True:
 			os.system('reset')
-			self.my_board_inside_player2()
+			self.my_board_outside_player1()
 			print ""
+			#self.my_board_inside_player2()
+			#print ""
 			self.my_board_outside_player2()
-			self.turn_player_one(self.board_inside_player2, self.board_outside_player2, self.my_board_inside_player2, self.my_board_outside_player2, "PLAYER 1")
+			self.turn_player_one(self.board_inside_player2, self.board_outside_player2, self.my_board_outside_player1, self.my_board_inside_player2, self.my_board_outside_player2, "PLAYER 1")
 			game = self.win_or_no(self.board_inside_player2, self.board_outside_player2)
 			if game == True:
 				os.system('reset')
-				self.my_board_inside_player1()
+				self.my_board_outside_player2()
 				print ""
+				#self.my_board_inside_player1()
+				#print ""
 				self.my_board_outside_player1()
-				self.turn_player_two(self.board_inside_player1, self.board_outside_player1, self.my_board_inside_player1, self.my_board_outside_player1, "PLAYER 2")
+				self.turn_player_two(self.board_inside_player1, self.board_outside_player1, self.my_board_outside_player2, self.my_board_inside_player1, self.my_board_outside_player1, "PLAYER 2")
 				game = self.win_or_no(self.board_inside_player1, self.board_outside_player1)
 		self.create_boards_player1()
 		self.create_boards_player2()
@@ -356,8 +404,10 @@ class my_game(object):
 	def ship_two_vertical(self, condition, inside_list, inside_function, outside_function, player):
 		'''inside_function()
 		outside_function()'''
-		column = self.column(condition,14)
-		row = self.row(condition,14)
+		column, row = self.column_and_row(condition, 14)
+		'''column = self.column(condition,14)
+		row = self.row(condition,14)'''
+		#os.system('reset')
 		#print column
 		#print row
 		try:
@@ -365,7 +415,7 @@ class my_game(object):
 				or (row == 14 and ("S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1]))\
 				or ("S" in inside_list[row + 1][column - 2] or "S" in inside_list[row][column - 2] or "S" in inside_list[row - 1][column - 2] or "S" in inside_list[row - 2][column - 2])\
 				or ("S" in inside_list[row + 1][column] or "S" in inside_list[row][column] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 2][column]):
-				#message = raw_input("Already there is a ship in this position")
+				message = raw_input("Already there is a ship in this position")
 				self.ship_two_vertical(condition, inside_list, inside_function, outside_function, player)
 			else:
 				inside_list[row - 1][column - 1] = "S"
@@ -376,6 +426,7 @@ class my_game(object):
 				#message = raw_input("two pieces")
 		except IndexError:
 			#message = raw_input("Out of the board")
+			#self.put_ships_two_pieces(condition, inside_list, inside_function, outside_function, player)
 			self.ship_two_vertical(condition, inside_list, inside_function, outside_function, player)
 		#message = raw_input("Final ship for one")
 
@@ -426,8 +477,9 @@ class my_game(object):
 		#print "\n%s" % player
 		#random_column = random.randint(1,15)
 		#random_row = self.random_row()
-		column = self.column(condition, 15)
-		row = self.row(condition, 15)
+		column, row = self.column_and_row(condition, 15)
+		'''column = self.column(condition, 15)
+		row = self.row(condition, 15)'''
 		#print column
 		#print row
 		#"S" in inside_list[row - 1][column] or
@@ -454,7 +506,18 @@ class my_game(object):
 		if condition == "no random":
 			inside_function()
 
+	def column_and_row(self, condition, end_range):
+		column = 0
+		row = 0
+		while (column < 1 or column > 15) or (row < 1 or row > 15):
+			column = self.column(condition, end_range)
+			row = self.row(condition, end_range)
+		os.system('reset')
+		return column, row
+
 	def column(self, condition, end_range):
+		#column = 0
+		#while column < 1 or column > end_range:
 		if condition == "random":
 			column = random.randint(1, end_range)
 		elif condition == "no random":
@@ -477,17 +540,20 @@ class my_game(object):
 		return column_position
 
 	def row(self, condition, end_range):
+		#row = 0
+		#while row < 1 or row > end_range:
 		if condition == "random":
 			row = random.randint(1, end_range)
 		elif condition == "no random":
 			row = self.ask_row_position()
+		#os.system('reset')
 		return row
 
 	def ask_row_position(self):
 		print "Enter the row where you want to start the ship"
 		row_position = raw_input(" > ")
 		row_position = self.ask_row_position_int(row_position)
-		os.system('reset')
+		#os.system('reset')
 		return row_position
 
 	def ask_row_position_int(self, row_position):
@@ -503,23 +569,23 @@ class my_game(object):
 	def random_row(self):
 		return random.randint(1, len(self.board_inside_compu[0]))
 
-	def turn_player_one(self, inside_list, outside_list, inside_function, outside_function, player):
+	def turn_player_one(self, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player):
 		print "\n%s" % player
 		guess_column = self.guess_column()
 		guess_row = self.guess_row()
-		self.verify_shot(False, guess_column, guess_row, inside_list, outside_list, inside_function, outside_function, player)
+		self.verify_shot(False, guess_column, guess_row, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player)
 		#game_over = self.win_or_no()
 
-	def turn_player_two(self, inside_list, outside_list, inside_function, outside_function, player):
+	def turn_player_two(self, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player):
 		print "\n%s" % player
 		guess_column = self.guess_column()
 		guess_row = self.guess_row()
-		self.verify_shot(False, guess_column, guess_row, inside_list, outside_list, inside_function, outside_function, player)
+		self.verify_shot(False, guess_column, guess_row, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player)
 
-	def turn_computer_player(self, inside_list, outside_list, inside_function, outside_function, player):
+	def turn_computer_player(self, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player):
 		random_column = self.random_column()
 		random_row = self.random_row()
-		self.verify_shot(True,random_column, random_row, inside_list, outside_list, inside_function, outside_function, player)
+		self.verify_shot(True,random_column, random_row, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player)
 
 	def guess_column(self):
 		print "\nTry to guess the column where is hidden a part of a ship:"
@@ -542,38 +608,26 @@ class my_game(object):
 		guess_row = int(guess_row)
 		return guess_row
 
-	'''def verify_shot(self, guess_column, guess_row):
-		if guess_column <= 0 or guess_column > len(self.board_inside_compu[0]) or guess_row <= 0 or guess_row > len(self.board_inside_compu[0]):
-			print "\nThis is outside of the board\n"
-		else:
-			if self.board_inside_compu[guess_row - 1][guess_column - 1] == "S":
-				print "\nYou guessed a part of the ship\n"
-				self.board_outside_compu[guess_row - 1][guess_column - 1] = "S"
-			else:
-				print "\nYou didn't guess any part of a ship\n"
-				self.board_outside_compu[guess_row -1][guess_column - 1] = "X"
-			self.my_board_inside_compu()
-			print ""
-			self.my_board_outside_compu()
-		#self.win_or_no()
-		message = raw_input("PRESS ENTER")'''
-
-	def verify_shot(self,true_or_false, column, row, inside_list, outside_list, inside_function, outside_function, player):
+	def verify_shot(self,true_or_false, column, row, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player):
 		if column <= 0 or column > len(inside_list[0]) or row <= 0 or row > len(inside_list[0]):
 			print "\nThis is outside of the board\n"
 		else:
 			if inside_list[row - 1][column - 1] == "S":
 				outside_list[row - 1][column - 1] = "S"
-				inside_function()
+				outside_function_opponent()
 				print ""
+				#inside_function()
+				#print ""
 				outside_function()
 				print "\n%s" % player
 				self.decide_print_coordenates(true_or_false, player, column, row)
 				message = raw_input("\nYou guessed a part of the ship")
 			else:
 				outside_list[row -1][column - 1] = "X"
-				inside_function()
+				outside_function_opponent()
 				print ""
+				#inside_function()
+				#print ""
 				outside_function()
 				print "\n%s" % player
 				self.decide_print_coordenates(true_or_false, player, column, row)
