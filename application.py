@@ -434,32 +434,44 @@ class my_game(object):
 			self.ship_two_horizontal(condition, inside_list, inside_function, outside_function, player)
 
 	def ship_two_vertical(self, condition, inside_list, inside_function, outside_function, player):
-		'''inside_function()
-		outside_function()'''
 		column, row = self.column_and_row(condition, 14)
 		'''column = self.column(condition,14)
 		row = self.row(condition,14)'''
 		#os.system('reset')
-		try:
-			if (row < 14 and ("S" in inside_list[row + 1][column - 1] or "S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1]))\
-				or (row == 14 and ("S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1]))\
-				or ("S" in inside_list[row + 1][column - 2] or "S" in inside_list[row][column - 2] or "S" in inside_list[row - 1][column - 2] or "S" in inside_list[row - 2][column - 2])\
-				or ("S" in inside_list[row + 1][column] or "S" in inside_list[row][column] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 2][column]):
+		#try:
+		if (row < 14 and column < 15)\
+			and ("S" in inside_list[row + 1][column - 1] or "S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1]\
+			or ("S" in inside_list[row][column - 2] or "S" in inside_list[row - 1][column - 2] or "S" in inside_list[row - 2][column - 2])\
+			or ("S" in inside_list[row][column] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 2][column])):
+				self.decide_print_message_there_is_ship(condition)
+				self.ship_two_vertical(condition, inside_list, inside_function, outside_function, player)
+		elif (row < 14 and column == 15)\
+			and (("S" in inside_list[row + 1][column - 1] or "S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1])\
+			or ("S" in inside_list[row][column - 2] or "S" in inside_list[row - 1][column - 2] or "S" in inside_list[row - 2][column - 2])):
+				self.decide_print_message_there_is_ship(condition)
+				self.ship_two_vertical(condition, inside_list, inside_function, outside_function, player)
+		elif (row == 14 and column < 15)\
+			and (("S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1])\
+			or ("S" in inside_list[row][column - 2] or "S" in inside_list[row - 1][column - 2] or "S" in inside_list[row - 2][column - 2])\
+			or ("S" in inside_list[row][column] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 2][column])):
 				#message = raw_input("Already there is a ship in this position\nPut it again")
 				self.decide_print_message_there_is_ship(condition)
 				#self.put_ships_two_pieces(condition, inside_list, inside_function, outside_function, player)
 				self.ship_two_vertical(condition, inside_list, inside_function, outside_function, player)
-			else:
-				os.system('reset')
+		elif (row == 14 and column == 15)\
+			and ():
+				pass
+		else:
+			os.system('reset')
+			inside_list[row - 1][column - 1] = "S"
+			for x in xrange(1,2):
+				row += 1
 				inside_list[row - 1][column - 1] = "S"
-				for x in xrange(1,2):
-					row += 1
-					inside_list[row - 1][column - 1] = "S"
-				self.decide_if_print_board(condition, inside_function)
-		except IndexError:
+			self.decide_if_print_board(condition, inside_function)
+		'''except IndexError:
 			message = raw_input("Out of the board")
 			#self.put_ships_two_pieces(condition, inside_list, inside_function, outside_function, player)
-			self.ship_two_vertical(condition, inside_list, inside_function, outside_function, player)
+			self.ship_two_vertical(condition, inside_list, inside_function, outside_function, player)'''
 
 	'''def ship_one_both(self):
 		random_column = random.randint(1,15)
