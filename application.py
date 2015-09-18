@@ -428,6 +428,11 @@ class my_game(object):
 				or ("S" in inside_list[row][column] or "S" in inside_list[row][column - 1] or "S" in inside_list[row][column - 2])):
 					self.decide_print_message_there_is_ship(condition)
 					self.ship_two_horizontal(condition, inside_list, inside_function, outside_function, player)
+			elif (column == 14 and row == 15)\
+				and (("S" in inside_list[row - 1][column] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 1][column - 2])\
+				or ("S" in inside_list[row - 2][column] or "S" in inside_list[row - 2][column - 1] or "S" in inside_list[row - 2][column - 2])):
+					self.decide_print_message_there_is_ship(condition)
+					self.ship_two_horizontal(condition, inside_list, inside_function, outside_function, player)
 			else:
 				os.system('reset')
 				inside_list[row - 1][column - 1] = "S"
