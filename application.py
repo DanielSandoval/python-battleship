@@ -650,8 +650,9 @@ class my_game(object):
 
 	def turn_player_one(self, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player):
 		print "\n%s" % player
-		guess_column = self.guess_column()
-		guess_row = self.guess_row()
+		guess_column, guess_row = self.guess_column_and_row(outside_list)
+		#guess_column = self.guess_column()
+		#guess_row = self.guess_row()
 		self.verify_shot(False, guess_column, guess_row, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player)
 
 	def turn_player_two(self, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player):
@@ -665,6 +666,15 @@ class my_game(object):
 		random_row = self.random_row()
 		self.verify_shot(True,random_column, random_row, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player)
 
+	def guess_column_and_row(self, outside_list):
+		guess_column = 0
+		guess_row = 0
+		while ((guess_column < 1 or guess_column > 15) or (guess_row < 1 or guess_row > 15)) or ("S" in outside_list[guess_column - 1][guess_row - 1] or "X" in outside_list[guess_column - 1][guess_row - 1]):
+			guess_column = self.guess_column()
+			guess_row = self.guess_row()
+		os.system('reset')
+		return guess_column, guess_row
+
 	def guess_column(self):
 		print "\nTry to guess the column where is hidden a part of a ship:"
 		guess_column = raw_input("  > ")
@@ -675,15 +685,21 @@ class my_game(object):
 		print "Try to guess the row where is hidden a part of a ship:"
 		guess_row = raw_input("  > ")
 		guess_row = self.guess_row_int(guess_row)
-		os.system('reset')
+		#os.system('reset')
 		return guess_row
 
 	def guess_column_int(self, guess_column):
-		guess_column = int(guess_column)
+		try:
+			guess_column = int(guess_column)
+		except ValueError:
+			message = raw_input("Enter a number between 1 and 15")
 		return guess_column
 
 	def guess_row_int(self, guess_row):
-		guess_row = int(guess_row)
+		try:
+			guess_row = int(guess_row)
+		except ValueError:
+			message = raw_input("Enter a number between 1 and 15")
 		return guess_row
 
 	def verify_shot(self,true_or_false, column, row, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player):
@@ -710,9 +726,6 @@ class my_game(object):
 				print "\n%s" % player
 				self.decide_print_coordenates(true_or_false, player, column, row)
 				message =  raw_input("\nYou didn't guess any part of a ship")
-			#os.system('reset')
-		#self.win_or_no()
-		#message = raw_input("PRESS ENTER")
 
 	def decide_print_coordenates(self,true_or_false, player, column, row):
 		if true_or_false == True:
