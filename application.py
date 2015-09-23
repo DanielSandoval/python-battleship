@@ -131,7 +131,7 @@ class my_game(object):
 		In Single Player the ships of the computer are placed automatically then you have to
 		place your ships on your board.
 		Then you have to try to guess all the parts of the ship to sink it and the computer has
-		to try to sink your boards too\n"
+		to try to sink your boards too\n
 		In Multi Player both players have to put their ships on their board and then they have
 		to try to sink the ships of the opponent
 		"""
@@ -288,7 +288,7 @@ class my_game(object):
 			print "Ship of %s pieces" % pieces
 
 	def ship_four_horizontal(self, condition, inside_list, inside_function, outside_function, player):
-		column, row = self.column_and_row(condition, 12)
+		column, row = self.column_and_row(condition, 12, 15)
 		try:
 			if (column < 12 and row < 15)\
 				and (("S" in inside_list[row - 1][column + 3] or "S" in inside_list[row - 1][column + 2] or "S" in inside_list[row - 1][column + 1] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 1][column - 2])\
@@ -324,7 +324,7 @@ class my_game(object):
 			self.ship_four_horizontal(condition, inside_list, inside_function, outside_function, player)
 
 	def ship_four_vertical(self, condition, inside_list, inside_function, outside_function, player):
-		column, row = self.column_and_row(condition, 12)
+		column, row = self.column_and_row(condition, 15, 12)
 		try:
 			if (row < 12 and column < 15)\
 				and ("S" in inside_list[row + 3][column - 1] or "S" in inside_list[row + 2][column - 1] or "S" in inside_list[row + 1][column - 1] or "S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1]\
@@ -360,7 +360,7 @@ class my_game(object):
 			self.ship_four_vertical(condition, inside_list, inside_function, outside_function, player)
 
 	def ship_three_horizontal(self, condition, inside_list, inside_function, outside_function, player):
-		column, row = self.column_and_row(condition, 13)
+		column, row = self.column_and_row(condition, 13, 15)
 		try:
 			if (column < 13 and row < 15)\
 				and (("S" in inside_list[row - 1][column + 2] or "S" in inside_list[row - 1][column + 1] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 1][column - 2])\
@@ -396,7 +396,7 @@ class my_game(object):
 			self.ship_three_horizontal(condition, inside_list, inside_function, outside_function, player)
 
 	def ship_three_vertical(self, condition, inside_list, inside_function, outside_function, player):
-		column, row = self.column_and_row(condition, 13)
+		column, row = self.column_and_row(condition, 15, 13)
 		try:
 			if (row < 13 and column < 15)\
 				and ("S" in inside_list[row + 2][column - 1] or "S" in inside_list[row + 1][column - 1] or "S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1]\
@@ -432,7 +432,7 @@ class my_game(object):
 			self.ship_three_vertical(condition, inside_list, inside_function, outside_function, player)
 
 	def ship_two_horizontal(self, condition, inside_list, inside_function, outside_function, player):
-		column, row = self.column_and_row(condition, 14)
+		column, row = self.column_and_row(condition, 14, 15)
 		try:
 			if (column < 14 and row < 15)\
 				and (("S" in inside_list[row - 1][column + 1] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 1][column - 2])\
@@ -468,7 +468,7 @@ class my_game(object):
 			self.ship_two_horizontal(condition, inside_list, inside_function, outside_function, player)
 
 	def ship_two_vertical(self, condition, inside_list, inside_function, outside_function, player):
-		column, row = self.column_and_row(condition, 14)
+		column, row = self.column_and_row(condition, 15, 14)
 		try:
 			if (row < 14 and column < 15)\
 				and ("S" in inside_list[row + 1][column - 1] or "S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1]\
@@ -504,7 +504,7 @@ class my_game(object):
 			self.ship_two_vertical(condition, inside_list, inside_function, outside_function, player)
 
 	def ship_one_both(self, condition, inside_list, inside_function, outside_function, player):
-		column, row = self.column_and_row(condition, 15)
+		column, row = self.column_and_row(condition, 15, 15)
 		try:
 			if (row < 15 and column < 15)\
 				and ("S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1]\
@@ -548,10 +548,10 @@ class my_game(object):
 		if condition == "no random":
 			message = raw_input("Out of range")
 
-	def column_and_row(self, condition, end_range):
+	def column_and_row(self, condition, *end_range):
 		column = 0
 		row = 0
-		while (column < 1 or column > end_range) or (row < 1 or row > end_range):
+		while (column < 1 or column > end_range[0]) or (row < 1 or row > end_range[1]):
 			column = self.column(condition, end_range)
 			row = self.row(condition, end_range)
 			self.decide_if_print_message(condition, end_range, column, row)
@@ -600,7 +600,7 @@ class my_game(object):
 		return row_position
 
 	def decide_if_print_message(self, condition, end_range, column, row):
-		if condition == "no random" and ((column < 1 or column > end_range) or (row < 0 or row > end_range)):
+		if condition == "no random" and ((column < 1 or column > end_range[0]) or (row < 0 or row > end_range[1])):
 			message = raw_input("Enter a number between 1 and the number that make to fit the ship on the board")
 
 	def turn_player_one(self, inside_list, outside_list, outside_function_opponent, inside_function, outside_function, player, condition):
