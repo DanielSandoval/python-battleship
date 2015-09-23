@@ -559,7 +559,7 @@ class my_game(object):
 
 	def column(self, condition, end_range):
 		if condition == "random":
-			column = random.randint(1, end_range)
+			column = random.randint(1, end_range[0])
 		elif condition == "no random":
 			column = self.ask_column_position()
 		return column
@@ -581,7 +581,7 @@ class my_game(object):
 
 	def row(self, condition, end_range):
 		if condition == "random":
-			row = random.randint(1, end_range)
+			row = random.randint(1, end_range[0])
 		elif condition == "no random":
 			row = self.ask_row_position()
 		return row
