@@ -230,7 +230,6 @@ class my_game(object):
 		self.put_ships_one_pieces(condition, inside_list, inside_function, outside_function, player)
 
 	def vertical_or_horizontal(self, condition):
-		#print "\n%s" % player
 		if condition == "no random":
 			vertical_or_horizontal = self.ask_vertical_or_horizontal()
 		elif condition == "random":
@@ -241,7 +240,6 @@ class my_game(object):
 		vertical_or_horizontal = ""
 		print ""
 		while vertical_or_horizontal != "v" and vertical_or_horizontal != "h" and vertical_or_horizontal != "V" and vertical_or_horizontal != "H":
-		#while vertical_or_horizontal != "v" and vertical_or_horizontal != "h":
 			vertical_or_horizontal = raw_input("Vertical or horizontal v/h: ")
 		return vertical_or_horizontal
 
@@ -253,12 +251,8 @@ class my_game(object):
 			return "h"
 
 	def put_ships_four_pieces(self, condition, inside_list, inside_function, outside_function, player):
-		#print "\n%s" % player
-		#print "Ship of four pieces"
 		for x in xrange(1,2):
-			print "\n%s" % player
-			print "Ship of four pieces"
-			#random_vertical_or_horizontal = self.random_vertical_or_horizontal()
+			self.decide_print_player(condition, player, "four")
 			vertical_or_horizontal = self.vertical_or_horizontal(condition)
 			if vertical_or_horizontal == "h":
 				self.ship_four_horizontal(condition, inside_list, inside_function, outside_function, player)
@@ -266,12 +260,8 @@ class my_game(object):
 				self.ship_four_vertical(condition, inside_list, inside_function, outside_function, player)
 
 	def put_ships_three_pieces(self, condition, inside_list, inside_function, outside_function, player):
-		#print "\n%s" % player
-		#print "Ship of three pieces"
 		for x in xrange(1,2):
-			print "\n%s" % player
-			print "Ship of three pieces"
-			#random_vertical_or_horizontal = self.random_vertical_or_horizontal()
+			self.decide_print_player(condition, player, "three")
 			vertical_or_horizontal = self.vertical_or_horizontal(condition)
 			if vertical_or_horizontal == "h":
 				self.ship_three_horizontal(condition, inside_list, inside_function, outside_function, player)
@@ -279,12 +269,8 @@ class my_game(object):
 				self.ship_three_vertical(condition, inside_list, inside_function, outside_function, player)
 
 	def put_ships_two_pieces(self, condition, inside_list, inside_function, outside_function, player):
-		#print "\n%s" % player
-		#print "Ship of two pieces"
 		for x in xrange(1,3):
-			print "\n%s" % player
-			print "Ship of two pieces"
-			#random_vertical_or_horizontal = self.random_vertical_or_horizontal()
+			self.decide_print_player(condition, player, "two")
 			vertical_or_horizontal = self.vertical_or_horizontal(condition)
 			if vertical_or_horizontal == "h":
 				self.ship_two_horizontal(condition, inside_list, inside_function, outside_function, player)
@@ -293,9 +279,13 @@ class my_game(object):
 
 	def put_ships_one_pieces(self, condition, inside_list, inside_function, outside_function, player):
 		for x in xrange(1,3):
-			print "\n%s" % player
-			print "Ship of one piece"
+			self.decide_print_player(condition, player, "one")
 			self.ship_one_both(condition, inside_list, inside_function, outside_function, player)
+
+	def decide_print_player(self, condition, player, pieces):
+		if condition == "no random":
+			print "\n%s" % player
+			print "Ship of %s pieces" % pieces
 
 	def ship_four_horizontal(self, condition, inside_list, inside_function, outside_function, player):
 		column, row = self.column_and_row(condition, 12)
@@ -330,20 +320,16 @@ class my_game(object):
 					inside_list[row -1][column - 1] = "S"
 				self.decide_if_print_board(condition, inside_function)
 		except IndexError:
-			#message = raw_input("Out of the board")
 			self.decide_print_mess_out_board(condition)
 			self.ship_four_horizontal(condition, inside_list, inside_function, outside_function, player)
 
 	def ship_four_vertical(self, condition, inside_list, inside_function, outside_function, player):
-		'''column = self.column(condition,12)
-		row = self.row(condition,12)'''
 		column, row = self.column_and_row(condition, 12)
 		try:
 			if (row < 12 and column < 15)\
 				and ("S" in inside_list[row + 3][column - 1] or "S" in inside_list[row + 2][column - 1] or "S" in inside_list[row + 1][column - 1] or "S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1]\
 				or ("S" in inside_list[row + 3][column - 2] or "S" in inside_list[row + 2][column - 2] or "S" in inside_list[row + 1][column - 2] or "S" in inside_list[row][column - 2] or "S" in inside_list[row - 1][column - 2] or "S" in inside_list[row - 2][column - 2])\
 				or ("S" in inside_list[row + 3][column] or "S" in inside_list[row + 2][column] or "S" in inside_list[row + 1][column] or "S" in inside_list[row][column] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 2][column])):
-				#message = raw_input("Already there is a ship in this position")
 				self.decide_print_message_there_is_ship(condition)
 				self.ship_four_vertical(condition, inside_list, inside_function, outside_function, player)
 			elif (row < 12 and column == 15)\
@@ -370,22 +356,16 @@ class my_game(object):
 					inside_list[row - 1][column - 1] = "S"
 				self.decide_if_print_board(condition, inside_function)
 		except IndexError:
-			#message = raw_input("Out of the board")
 			self.decide_print_mess_out_board(condition)
 			self.ship_four_vertical(condition, inside_list, inside_function, outside_function, player)
 
 	def ship_three_horizontal(self, condition, inside_list, inside_function, outside_function, player):
-		'''column = self.column(condition,13)
-		row = self.row(condition,13)'''
 		column, row = self.column_and_row(condition, 13)
-		#print column
-		#print row
 		try:
 			if (column < 13 and row < 15)\
 				and (("S" in inside_list[row - 1][column + 2] or "S" in inside_list[row - 1][column + 1] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 1][column - 2])\
 				or ("S" in inside_list[row - 2][column + 2] or "S" in inside_list[row - 2][column + 1] or "S" in inside_list[row - 2][column] or "S" in inside_list[row - 2][column - 1] or "S" in inside_list[row - 2][column - 2])\
 				or ("S" in inside_list[row][column + 2] or "S" in inside_list[row][column + 1] or "S" in inside_list[row][column] or "S" in inside_list[row][column - 1] or "S" in inside_list[row][column - 2])):
-					#message = raw_input("Already there is a ship in this position")
 					self.decide_print_message_there_is_ship(condition)
 					self.ship_three_horizontal(condition, inside_list, inside_function, outside_function, player)
 			elif (column < 13 and row == 15)\
@@ -412,23 +392,16 @@ class my_game(object):
 					inside_list[row - 1][column - 1] = "S"
 				self.decide_if_print_board(condition, inside_function)
 		except IndexError:
-			#message = raw_input("Out of the board")
 			self.decide_print_mess_out_board(condition)
 			self.ship_three_horizontal(condition, inside_list, inside_function, outside_function, player)
-		#message = raw_input("Final ship for one")
 
 	def ship_three_vertical(self, condition, inside_list, inside_function, outside_function, player):
-		'''column = self.column(condition,13)
-		row = self.row(condition,13)'''
 		column, row = self.column_and_row(condition, 13)
-		#print column
-		#print row
 		try:
 			if (row < 13 and column < 15)\
 				and ("S" in inside_list[row + 2][column - 1] or "S" in inside_list[row + 1][column - 1] or "S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1]\
 				or ("S" in inside_list[row + 2][column - 2] or "S" in inside_list[row + 1][column - 2] or "S" in inside_list[row][column - 2] or "S" in inside_list[row - 1][column - 2] or "S" in inside_list[row - 2][column - 2])\
 				or ("S" in inside_list[row + 2][column] or "S" in inside_list[row + 1][column] or "S" in inside_list[row][column] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 2][column])):
-					#message = raw_input("Already there is a ship in this position")
 					self.decide_print_message_there_is_ship(condition)
 					self.ship_three_vertical(condition, inside_list, inside_function, outside_function, player)
 			elif (row < 13 and column == 15)\
@@ -455,15 +428,11 @@ class my_game(object):
 					inside_list[row - 1][column - 1] = "S"
 				self.decide_if_print_board(condition, inside_function)
 		except IndexError:
-			#message = raw_input("Out of the board")
 			self.decide_print_mess_out_board(condition)
 			self.ship_three_vertical(condition, inside_list, inside_function, outside_function, player)
-		#message = raw_input("Final ship for one")
 
 	def ship_two_horizontal(self, condition, inside_list, inside_function, outside_function, player):
 		column, row = self.column_and_row(condition, 14)
-		'''column = self.column(condition,14)
-		row = self.row(condition,14)'''
 		try:
 			if (column < 14 and row < 15)\
 				and (("S" in inside_list[row - 1][column + 1] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 1][column - 2])\
@@ -474,7 +443,6 @@ class my_game(object):
 			elif (column < 14 and row == 15)\
 				and (("S" in inside_list[row - 1][column + 1] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 1][column - 2])\
 				or ("S" in inside_list[row - 2][column + 1] or "S" in inside_list[row - 2][column] or "S" in inside_list[row - 2][column - 1] or "S" in inside_list[row - 2][column - 2])):
-					#message = raw_input("Already there is a ship in this position")
 					self.decide_print_message_there_is_ship(condition)
 					self.ship_two_horizontal(condition, inside_list, inside_function, outside_function, player)
 			elif (column == 14 and row < 15)\
@@ -495,16 +463,12 @@ class my_game(object):
 					column += 1
 					inside_list[row - 1][column - 1] = "S"
 				self.decide_if_print_board(condition, inside_function)
-				#message = raw_input("two pieces")
 		except IndexError:
-			#message = raw_input("Out of the board")
 			self.decide_print_mess_out_board(condition)
 			self.ship_two_horizontal(condition, inside_list, inside_function, outside_function, player)
 
 	def ship_two_vertical(self, condition, inside_list, inside_function, outside_function, player):
 		column, row = self.column_and_row(condition, 14)
-		'''column = self.column(condition,14)
-		row = self.row(condition,14)'''
 		try:
 			if (row < 14 and column < 15)\
 				and ("S" in inside_list[row + 1][column - 1] or "S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1]\
@@ -521,9 +485,7 @@ class my_game(object):
 				and (("S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1])\
 				or ("S" in inside_list[row][column - 2] or "S" in inside_list[row - 1][column - 2] or "S" in inside_list[row - 2][column - 2])\
 				or ("S" in inside_list[row][column] or "S" in inside_list[row - 1][column] or "S" in inside_list[row - 2][column])):
-					#message = raw_input("Already there is a ship in this position\nPut it again")
 					self.decide_print_message_there_is_ship(condition)
-					#self.put_ships_two_pieces(condition, inside_list, inside_function, outside_function, player)
 					self.ship_two_vertical(condition, inside_list, inside_function, outside_function, player)
 			elif (row == 14 and column == 15)\
 				and (("S" in inside_list[row][column - 1] or "S" in inside_list[row - 1][column - 1] or "S" in inside_list[row - 2][column - 1])\
@@ -538,9 +500,7 @@ class my_game(object):
 					inside_list[row - 1][column - 1] = "S"
 				self.decide_if_print_board(condition, inside_function)
 		except IndexError:
-			#message = raw_input("Out of the board")
 			self.decide_print_mess_out_board(condition)
-			#self.put_ships_two_pieces(condition, inside_list, inside_function, outside_function, player)
 			self.ship_two_vertical(condition, inside_list, inside_function, outside_function, player)
 
 	def ship_one_both(self, condition, inside_list, inside_function, outside_function, player):
@@ -573,7 +533,6 @@ class my_game(object):
 				inside_list[row - 1][column - 1] = "S"
 				self.decide_if_print_board(condition, inside_function)
 		except IndexError:
-			#message = raw_input("Out of the board")
 			self.decide_print_mess_out_board(condition)
 			self.ship_one_both(condition, inside_list, inside_function, outside_function, player)
 
@@ -773,7 +732,6 @@ class my_game(object):
 			os.system('cls')
 
 	def exit_program(self):
-		if self.operative_system == "Linux":
 			self.clean_screen()
 			sys.exit()
 
